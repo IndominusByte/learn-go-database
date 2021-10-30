@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  learn-go-database-postgresql:
+    container_name: ${POSTGRESQL_CONTAINER}
+    hostname: ${POSTGRESQL_HOST}
+    image: "${POSTGRESQL_IMAGE}:${POSTGRESQL_IMAGE_TAG}"
+    restart: always
+    environment:
+      TZ: ${POSTGRESQL_TIME_ZONE}
+      POSTGRES_DB: ${POSTGRESQL_DB}
+      POSTGRES_USER: ${POSTGRESQL_USER}
+      POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
+    ports:
+      - "5555:5432"
+    networks:
+      - learn-go-database-environment
+
+  learn-go-database-pgadmin:
+    container_name: ${PGADMIN_CONTAINER}
+    hostname: ${PGADMIN_HOST}
+    image: "${PGADMIN_IMAGE}:${PGADMIN_IMAGE_TAG}"
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    ports:
+      - "5433:80"
+    networks:
+      - learn-go-database-environment
+
+networks:
+  learn-go-database-environment:
+    external: true
+    name: learn-go-database-environment
+
